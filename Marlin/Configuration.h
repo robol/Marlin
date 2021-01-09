@@ -2327,3 +2327,6 @@
 
 // Allow servo angle to be edited and saved to EEPROM
 //#define EDITABLE_SERVO_ANGLES
+
+// Support for Easythreed and Labists X1 button pads
+#define X1_BUTTONS

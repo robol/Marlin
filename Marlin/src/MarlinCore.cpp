@@ -208,6 +208,10 @@
   #include "libs/L64XX/L64XX_Marlin.h"
 #endif
 
+#if ENABLED(X1_BUTTONS)
+  #include "feature/x1-buttons.h"
+#endif
+
 PGMSTR(NUL_STR, "");
 PGMSTR(M112_KILL_STR, "M112 Shutdown");
 PGMSTR(G28_STR, "G28");
@@ -727,6 +731,9 @@ void idle(TERN_(ADVANCED_PAUSE_FEATURE, bool no_stepper_sleep/*=false*/)) {
   // Handle UI input / draw events
   TERN(DWIN_CREALITY_LCD, DWIN_Update(), ui.update());
 
+  // Labists / Easythreed X1 buttons and LEDs support
+  TERN_(X1_BUTTONS, x1_idle());
+
   // Run i2c Position Encoders
   #if ENABLED(I2C_POSITION_ENCODERS)
     static millis_t i2cpem_next_update_ms;
@@ -1197,6 +1204,8 @@ void setup() {
     if (!card.isMounted()) SETUP_RUN(card.mount()); // Mount SD to load graphics and fonts
     SETUP_RUN(tft_lvgl_init());
   #endif
+
+  TERN_(X1_BUTTONS, x1_setup());
 
   marlin_state = MF_RUNNING;
 
